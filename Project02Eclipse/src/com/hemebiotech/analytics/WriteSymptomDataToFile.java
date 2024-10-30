@@ -1,7 +1,6 @@
 package com.hemebiotech.analytics;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class WriteSymptomDataToFile implements ISymptomWriter{
@@ -24,7 +23,7 @@ public class WriteSymptomDataToFile implements ISymptomWriter{
 
                 writer.close();
             } catch (IOException e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
     }

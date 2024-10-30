@@ -28,7 +28,7 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 				}
 				reader.close();
 			} catch (IOException e) {
-				System.out.println(e);
+				e.printStackTrace();
 			}
 		}
 

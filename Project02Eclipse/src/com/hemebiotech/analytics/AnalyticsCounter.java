@@ -4,38 +4,38 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
-	
-	public static void main(String[] args) throws Exception {
-		BufferedReader reader = new BufferedReader (new FileReader("Project02Eclipse/resources/symptoms.txt"));
-		String line = reader.readLine();
+	protected ISymptomReader reader;
+	protected ISymptomWriter writer;
 
-		while (line != null) {
-			System.out.println("symptom from file: " + line);
-            switch (line) {
-                case "headache" -> {
-                    headacheCount++;
-                    System.out.println("number of headaches: " + headacheCount);
-                }
-                case "rash" -> rashCount++;
-                case "dialated pupils" -> pupilCount++;
-            }
+    public AnalyticsCounter(ISymptomWriter writer, ISymptomReader reader) {
+		this.reader = reader;
+		this.writer = writer;
+	}
 
-			line = reader.readLine();
+	public List<String> getSymptoms(){
+		return reader.GetSymptoms();
+	}
+
+	public Map<String, Integer> countSymptoms(List<String> symptoms){
+		Map<String, Integer> symptonCount = new HashMap<>();
+		for (String sympton: symptoms) {
+			symptonCount.put(sympton, symptonCount.getOrDefault(sympton, 0) + 1);
 		}
 
-		reader.close();
+		return symptonCount;
+	}
 
-		FileWriter fileWriter = new FileWriter ("Project02Eclipse/resources/result.out", false);
-		BufferedWriter writer = new BufferedWriter(fileWriter);
+	public Map<String, Integer> sortSymptons(Map<String, Integer> symptons) {
+		return new TreeMap<>(symptons);
+	}
 
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dilated pupils: " + pupilCount + "\n");
-		writer.close();
+	public void writeSymptons(Map<String, Integer> symptons) {
+		writer.writeSymptoms(symptons);
 	}
 }
